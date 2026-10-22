@@ -1,28 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101116">
+  <meta name="description" content="Edite fotos com estilos rápidos e ferramentas simples, direto no navegador.">
+  <title>Foto Fácil — Editor de fotos</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="logo">✳</span><span>foto fácil</span></div>
+    <div class="top-actions">
+      <button class="secondary small" id="resetTop" disabled>↺ Restaurar</button>
+      <label class="upload-label small" for="fileInput">＋ Abrir foto</label>
+    </div>
+  </header>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <meta name="description" content="SyncPad: documentos vivos para escrever, organizar e compartilhar em tempo real." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet" />
-    <!-- THIS IS THE START OF A COMMENT BLOCK, BLOCK TO BE DELETED: Google Fonts here, example:
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    THIS IS THE END OF A COMMENT BLOCK, BLOCK TO BE DELETED -->
-    <script type="module" crossorigin src="/assets/index-D7vW24EG.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BxGVVHv3.css">
-  </head>
+  <main>
+    <div class="intro">
+      <div>
+        <h1>Deixe sua foto incrível.</h1>
+        <p>Edições rápidas, bonitas e sem complicação.</p>
+      </div>
+      <div class="privacy">🔒 Suas fotos ficam no seu dispositivo</div>
+    </div>
 
-  <body>
-    <div id="root"></div>
-    <script src="/api/platform/config.js"></script>
+    <div class="editor">
+      <section class="workspace">
+        <div class="workspace-head">
+          <span>ÁREA DE EDIÇÃO</span>
+          <span id="imageStatus">Nenhuma foto aberta</span>
+        </div>
+        <div class="stage">
+          <div class="empty" id="emptyState">
+            <div class="empty-icon">▧</div>
+            <h2>Sua próxima foto começa aqui</h2>
+            <p>Escolha uma imagem do celular ou computador para começar a editar.</p>
+            <label class="upload-label" for="fileInput">Escolher uma foto</label>
+          </div>
+          <img id="photo" alt="Prévia da foto editada">
+        </div>
+        <div class="workspace-foot">
+          <span id="dimensions">JPG, PNG, WEBP</span>
+          <span>Prévia em tempo real</span>
+        </div>
+      </section>
 
-  </body>
+      <aside class="sidebar">
+        <section>
+          <div class="section-title"><h3>✨ Estilos rápidos</h3><span>UM TOQUE</span></div>
+          <div class="presets">
+            <button class="preset active" data-preset="original"><span class="swatch"></span>Original</button>
+            <button class="preset" data-preset="film"><span class="swatch"></span>Filme</button>
+            <button class="preset" data-preset="vivid"><span class="swatch"></span>Vibrante</button>
+            <button class="preset" data-preset="mono"><span class="swatch"></span>Preto e branco</button>
+            <button class="preset" data-preset="dream"><span class="swatch"></span>Suave</button>
+            <button class="preset" data-preset="night"><span class="swatch"></span>Noturna</button>
+          </div>
+        </section>
 
+        <section>
+          <div class="section-title"><h3>🎚 Ajustes</h3><span>PERSONALIZE</span></div>
+          <div class="control">
+            <label for="brightness">Brilho <output id="brightnessVal">100%</output></label>
+            <input id="brightness" type="range" min="40" max="160" value="100">
+          </div>
+          <div class="control">
+            <label for="contrast">Contraste <output id="contrastVal">100%</output></label>
+            <input id="contrast" type="range" min="50" max="160" value="100">
+          </div>
+          <div class="control">
+            <label for="saturation">Saturação <output id="saturationVal">100%</output></label>
+            <input id="saturation" type="range" min="0" max="200" value="100">
+          </div>
+          <div class="control">
+            <label for="warmth">Temperatura <output id="warmthVal">0</output></label>
+            <input id="warmth" type="range" min="-40" max="40" value="0">
+          </div>
+        </section>
+
+        <section>
+          <div class="section-title"><h3>↻ Ferramentas</h3><span>RÁPIDO</span></div>
+          <div class="tools">
+            <button class="tool" id="rotate">↻ Girar</button>
+            <button class="tool" id="flip">↔ Espelhar</button>
+            <button class="tool" id="reset">⟲ Limpar</button>
+          </div>
+        </section>
+
+        <div class="download-row">
+          <select id="format" aria-label="Formato de exportação">
+            <option value="image/jpeg">JPG — leve</option>
+            <option value="image/png">PNG — qualidade</option>
+            <option value="image/webp">WEBP — moderno</option>
+          </select>
+          <button class="primary" id="download" disabled>Baixar foto ↓</button>
+        </div>
+        <p class="notice">A edição acontece no navegador. Nenhuma foto é enviada para um servidor.</p>
+      </aside>
+    </div>
+
+    <input id="fileInput" type="file" accept="image/*">
+  </main>
+</body>
 </html>
